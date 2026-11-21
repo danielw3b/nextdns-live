@@ -350,42 +350,6 @@
           <span>Settings</span>
           <a href="https://nextdns.io/?from=4ja3vp44" target="_blank" rel="noopener noreferrer" style="font-size: 0.75rem; color: #38bdf8; text-decoration: none; font-weight: 600;">Get NextDNS ↗</a>
         </div>
-        
-        <!--<div class="form-grid-2col">
-          <div class="form-group">
-            <label>Profile ID</label>
-            <input type="text" id="cfg-profile" placeholder="e.g. 2ab1c3" style="width: 100%;">
-          </div>
-          <div class="form-group">
-            <label>NextDNS API Key</label>
-            <input type="password" id="cfg-apikey" placeholder="sk_..." style="width: 100%;">
-          </div>
-        </div>
-
-        <div class="form-grid-2col">
-          <div class="form-group">
-            <label>Cloudflare Pages Proxy</label>
-            <input type="text" id="cfg-proxy" placeholder="/api/nextdns" value="/api/nextdns" style="width: 100%;">
-          </div>
-          <div class="form-group">
-            <label>Threshold Hits</label>
-            <input type="number" id="cfg-threshold" value="200" style="width: 100%;">
-          </div>
-        </div>
-        
-        <div class="card-title">
-          <span>Telegram Notification</span>
-        </div>
-        <div class="form-grid-2col">
-          <div class="form-group">
-            <label>Chat-ID</label>
-            <input type="text" id="cfg-telegramChatId" placeholder="e.g. -1001234..." style="width: 100%;">
-          </div>          
-          <div class="form-group">
-            <label>Bot-Token</label>
-            <input type="password" id="cfg-telegramBotToken" placeholder="e.g. 1234567890:ABCdefG..." style="width: 100%;">
-          </div>
-        </div>-->
 
         <div class="form-grid-2col">
           <div class="form-group">
@@ -715,7 +679,7 @@
           <td style="white-space: nowrap; color: var(--muted);">
             ${l.time instanceof Date ? l.time.toLocaleTimeString() : new Date(l.time).toLocaleTimeString()}
           </td>
-          <td class="domain-cell" style="border-left: 2px ${s.isManual ? '#fde047' : (s.isBlocked ? '#fca5a5' : '#f1f5f9')};" title="${safeText(l.domain)}">
+          <td class="domain-cell" style="border-left: 2px solid ${s.isManual ? '#fde047' : (s.isBlocked ? '#fca5a5' : '#f1f5f9')};" title="${safeText(l.domain)}">
             ${safeText(l.domain)}
           </td>
           <td>${badge}</td>
@@ -1495,14 +1459,14 @@
     document.getElementById('btn-export-live')?.addEventListener('click', exportLiveLogsToCSV);
     
     // Clear live log stream table and buffer
-    function clearLiveLogs() {
+    /*function clearLiveLogs() {
       STATE.logs = [];
       renderLiveLogs();
       showToast('🧹 Cleared', 'Live log stream has been cleared.', 'info');
     }
     
     // Bind to clear button element
-    document.getElementById('btn-clear-logs')?.addEventListener('click', clearLiveLogs);
+    document.getElementById('btn-clear-logs')?.addEventListener('click', clearLiveLogs);*/
 
     // Export configuration and denylist as a JSON file
     function backupConfigJSON() {
@@ -1722,7 +1686,7 @@
         clearBtn.addEventListener('click', () => {
           searchInput.value = '';
           toggleClear();
-          //renderLiveLogs();
+          renderLiveLogs();
           searchInput.focus();
         });
       
