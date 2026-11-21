@@ -679,7 +679,7 @@
           <td style="white-space: nowrap; color: var(--muted);">
             ${l.time instanceof Date ? l.time.toLocaleTimeString() : new Date(l.time).toLocaleTimeString()}
           </td>
-          <td class="domain-cell" style="border-left: 2px solid ${s.isManual ? '#fde047' : (s.isBlocked ? '#fca5a5' : '#f1f5f9')};" title="${safeText(l.domain)}">
+          <td class="domain-cell" style="border-left: 2px solid ${s.isManual ? '#fde047' : (s.isBlocked ? '#f87171' : '#4ade80')};" title="${safeText(l.domain)}">
             ${safeText(l.domain)}
           </td>
           <td>${badge}</td>
@@ -697,6 +697,8 @@
       tbody.innerHTML = '';
       tbody.appendChild(fragment);
     }
+    //  <td class="domain-cell" style="color: ${s.isManual ? '#fde047' : (s.isBlocked ? '#fca5a5' : '#f1f5f9')};" title="${safeText(l.domain)}">
+
     
     // Render DNS hits monitoring table with clean boolean flags and data attributes for Event Delegation
     function renderHitsTable() {
