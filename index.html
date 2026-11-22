@@ -113,61 +113,20 @@
   .truncate { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 
   .table-container { overflow: auto; border: 1px solid var(--border); border-radius: 8px; background: #060911; height: calc(100vh - 280px); min-height: 260px; }
-  /*.table-container table, #tab-live, #tab-mon { width: 100%; border-collapse: collapse; }
-  th { background: var(--surface); color: var(--muted); font-weight: 600; position: sticky; top: 0; z-index: 10; text-transform: uppercase; font-size: 0.64rem; letter-spacing: 0.03em; }*/
+  th { background: var(--surface); color: var(--muted); font-weight: 600; position: sticky; top: 0; z-index: 10; text-transform: uppercase; font-size: 0.64rem; letter-spacing: 0.03em; border-bottom: 1px solid var(--border); }
 
-  /* Use separate borders with zero spacing to avoid sticky header column line artifacts */
-  .table-container table,
-  #tab-live,
-  #tab-mon {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-  }
-
-  /* Keep header background solid and cleanly separated below */
-  th {
-    background: var(--surface);
-    color: var(--muted);
-    font-weight: 600;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    text-transform: uppercase;
-    font-size: 0.64rem;
-    letter-spacing: 0.03em;
-    border-bottom: 1px solid var(--border);
-  }
-  
-  /* Avoid subpixel column line artifacts in collapsed tables when hovering rows */
-  #tab-live td:nth-child(2),
-  #tab-mon td:nth-child(1) {
-    max-width: 400px;
-  }
-
-  /* Truncate inner content safely instead of clipping the table cell directly */
-  .domain-cell {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+  .table-container table, #tab-live, #tab-mon { width: 100%; border-collapse: separate; border-spacing: 0; }
 
   #tab-live th, #tab-live td, #tab-mon th, #tab-mon td { padding: 0.5rem 0.75rem; text-align: left; white-space: nowrap; }
   tr:hover td { background: rgba(30, 41, 59, 0.4); }
 
-  /*#tab-live th:nth-child(2), #tab-live td:nth-child(2), #tab-mon th:nth-child(1), #tab-mon td:nth-child(1) { max-width: 400px; overflow: hidden; text-overflow: ellipsis; }*/
+  #tab-live td:nth-child(2), #tab-mon td:nth-child(1) { max-width: 400px; }
   #tab-live th:nth-child(4), #tab-live td:nth-child(4) { max-width: 70px; overflow: hidden; text-overflow: ellipsis; }
 
-  #tab-mon td:nth-child(3), #tab-mon th:nth-child(3) { text-align: right; max-width: 40px; }
+  #tab-mon td:nth-child(3), #tab-mon th:nth-child(3) { text-align: right; max-width: 35px; }
   #tab-mon td:nth-child(4), #tab-mon th:nth-child(4) { max-width: 70px;}
 
-  /*.domain-cell { /*font-family: monospace;*/ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }*/
-
-  .status-blocked { background: var(--blocked-bg); color: #fca5a5; }
-  .status-allowed { background: var(--allowed-bg); color: #86efac; }
-
-  .bar-bg { width: 100%; height: 5px; background: #1e293b; border-radius: 99px; overflow: hidden; margin-top: 3px; }
-  .bar-fill { height: 100%; border-radius: 99px; transition: width 0.3s ease; }
+  .domain-cell { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
   @media (max-width: 800px) {
     .table-container { overflow-x: auto; }
@@ -176,6 +135,12 @@
     #tab-live td, #tab-mon td { padding: 0.35rem 0.4rem; }
   }
 
+  .status-blocked { background: var(--blocked-bg); color: #fca5a5; }
+  .status-allowed { background: var(--allowed-bg); color: #86efac; }
+
+  .bar-bg { width: 100%; height: 5px; background: #1e293b; border-radius: 99px; overflow: hidden; margin-top: 3px; }
+  .bar-fill { height: 100%; border-radius: 99px; transition: width 0.3s ease; }
+  
   button, .btn {
     font-family: inherit; font-size: 0.75rem; font-weight: 600; padding: 0.4rem 0.75rem;
     border-radius: 4px; border: 1px solid transparent; cursor: pointer; display: inline-flex;
