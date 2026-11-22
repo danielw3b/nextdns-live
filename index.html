@@ -598,17 +598,18 @@
       const clean = (domain || '').toLowerCase().trim();
       const lStat = String(status || 'allowed').toLowerCase();
       const rList = (reasons || []).map(r => r.toLowerCase());
-      
+      const isAllowlisted = rList.includes('allowlist');
+
       // 1. Check block states first (Source of Truth)
-      const isExplicitUnblocked = STATE.manuallyUnblocked && STATE.manuallyUnblocked.has(clean);  
-      const isManual = (!isExplicitUnblocked && rList.includes('denylist')) || (STATE.manuallyBlocked && STATE.manuallyBlocked.has(clean));
-      const isApi = lStat === 'blocked' || lStat === 'security' || lStat === 'parental';
-      const isBlocked = isApi || isManual;
-    
+      const isExplicitUnblocked = STATE.manuallyUnblocked && STATE.manuallyUnblocked.has(clean);
+      const isManual = !isAllowlisted && ((!isExplicitUnblocked && rList.includes('denylist')) || (STATE.manuallyBlocked && STATE.manuallyBlocked.has(clean)));
+      const isApi = !isAllowlisted && (lStat === 'blocked' || lStat === 'security' || lStat === 'parental');
+      const isBlocked = !isAllowlisted && (isApi || isManual);
+
       // 2. System protection ONLY applies if the domain is NOT already blocked
       const isSys = (cfg?.protectSystem ?? true) && !isBlocked && (typeof isProtected === 'function' ? isProtected(clean) : false);
-    
-      return { clean, isSys, isManual, isApi, isBlocked, rList };
+
+      return { clean, isSys, isManual, isApi, isBlocked, isAllowlisted, rList };
     }
     
     // Render filtered live logs with search, status filters, and event delegation data attributes
@@ -634,6 +635,7 @@
           
           let rCopy = [...s.rList];
           if (s.isSys) rCopy.push('protected system domain', 'protected', 'system');
+          if (s.isAllowlisted) rCopy.push('allowlist');
 
           if (s.isBlocked) {
             rCopy.push('blocked');
@@ -653,10 +655,10 @@
         const tr = document.createElement('tr');
         const s = getDomainStatus(l.domain, l.status, l.reasons, cfg);
     
-        // Automatically sync denylist reasons into manual block state
-        if (l.reasons && l.reasons.map(r => r.toLowerCase()).includes('denylist')) {
-          const isExplicitlyUnblocked = STATE.manuallyUnblocked && STATE.manuallyUnblocked.has(s.clean);
-          if (!isExplicitlyUnblocked) {
+        // Skip manual block sync for allowlisted domains
+        if (!s.isAllowlisted && s.rList.includes('denylist')) {
+          const isExplicitUnblocked = STATE.manuallyUnblocked && STATE.manuallyUnblocked.has(s.clean);
+          if (!isExplicitUnblocked) {
             STATE.manuallyBlocked.add(s.clean);
           }
         }
@@ -668,6 +670,9 @@
           badge = `<button class="btn-warn small" data-action="remove-deny" data-domain="${safeText(l.domain)}" title="Click to Unblock">Unblock</button>`;
         } else if (s.isApi) {
           badge = `<button class="btn-danger small" style="opacity: 0.5; cursor: not-allowed;" disabled title="Blocked by NextDNS Security/Parental">Blocked</button>`;
+        } else if (s.isAllowlisted) {
+          // Disable block and unblock actions for allowlisted domains
+          badge = `<button class="status-allowed small" style="opacity: 0.6; cursor: not-allowed;" disabled title="Allowlisted Domain - Cannot Block or Unblock">Allowlist</button>`;
         } else {
           badge = `<button class="status-allowed small" data-action="add-deny" data-domain="${safeText(l.domain)}" title="Click to Deny">Deny</button>`;
         }
@@ -678,7 +683,7 @@
           <td style="white-space: nowrap; color: var(--muted);border-left: 2px solid ${s.isManual ? '#fde047' : (s.isBlocked ? '#f87171' : '#4ade80')};">
             ${l.time instanceof Date ? l.time.toLocaleTimeString() : new Date(l.time).toLocaleTimeString()}
           </td>
-          <td class="domain-cell" style="color: ${s.isManual ? '#fde047' : (s.isBlocked ? '#fca5a5' : '#f1f5f9')};" title="${safeText(l.domain)}">
+          <td class="domain-cell" title="${safeText(l.domain)}">
             ${safeText(l.domain)}
           </td>
           <td>${badge}</td>
