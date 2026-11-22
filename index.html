@@ -161,7 +161,7 @@
     background: #060911; border: 1px solid var(--border); color: var(--text);
     padding: 0.45rem 0.65rem; border-radius: 6px; font-size: 0.75rem; font-family: inherit;
   }
-  .live-search-input:focus-within, :is(input[type="text"], input[type="password"], input[type="number"], select, button):focus { outline: none; border-color: var(--accent); }
+  .live-search-input:focus-within, :is(input[type="text"], input[type="password"], input[type="number"], select, button, checkbox):focus { outline: none; border-color: var(--accent); }
 
   .live-search-input { display: flex; flex: 1; align-items: center; gap: 0.25rem; padding:0;}
   #btn-clear-search { color: var(--muted, #94a3b8); cursor: pointer; padding: 0.2rem; margin-right: 0.2rem; }
@@ -386,6 +386,15 @@
             <input type="text" id="cfg-telegramBotToken" autocomplete="one-time-code" placeholder="e.g. 1234567890:ABCdefG..." style="width: 100%; -webkit-text-security: disc;">
           </div>
         </div>
+
+        <div class="form-grid-2col">
+          <div class="form-group">
+            Action: <button class="status-allowed small" title="Click to Deny">Deny</button> <-> <button class="btn-warn small" title="Click to Unblock">Unblock</button>
+          </div>
+          <div class="form-group">
+            <button class="btn config" onclick="navigator.clipboard.writeText(localStorage.getItem('nd-live-errors') || '[]'); showToast('Debug', 'Errors copied to clipboard', 'success');">Copy Error Log</button>
+          </div>
+        </div>
         
         <div class="form-group" style="margin-bottom: 1.25rem;">
           <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
@@ -417,6 +426,15 @@
   <div class="toast-container" id="toast-container"></div>
 
   <script>
+
+    const ERROR_LOG = JSON.parse(localStorage.getItem('nd-live-errors') || '[]');
+    const logErr = (msg, src = '') => {
+      ERROR_LOG.unshift({ t: new Date().toISOString(), msg: String(msg), src });
+      localStorage.setItem('nd-live-errors', JSON.stringify(ERROR_LOG.slice(0, 20)));
+    };
+    window.onerror = (msg, src, line) => logErr(msg, `${src}:${line}`);
+    window.onunhandledrejection = (e) => logErr(e.reason?.message || e.reason, 'Promise');
+   
     function safeText(str) {
       if (str == null) return '';
       const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
