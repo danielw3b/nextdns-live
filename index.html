@@ -148,6 +148,8 @@
   /* Truncate inner content safely instead of clipping the table cell directly */
   .domain-cell {
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   #tab-live th, #tab-live td, #tab-mon th, #tab-mon td { padding: 0.5rem 0.75rem; text-align: left; white-space: nowrap; }
