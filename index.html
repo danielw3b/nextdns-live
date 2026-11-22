@@ -115,7 +115,8 @@
   .table-container { overflow: auto; border: 1px solid var(--border); border-radius: 8px; background: #060911; height: calc(100vh - 280px); min-height: 260px; }
   .table-container table, #tab-live, #tab-mon { width: 100%; border-collapse: collapse; }
 
-  th { background: var(--surface); color: var(--muted); font-weight: 600; position: sticky; top: 0; z-index: 10; text-transform: uppercase; font-size: 0.64rem; letter-spacing: 0.03em; }
+  /*th { background: var(--surface); color: var(--muted); font-weight: 600; position: sticky; top: 0; z-index: 10; text-transform: uppercase; font-size: 0.64rem; letter-spacing: 0.03em; }*/
+  th { background: var(--surface); background-clip: padding-box; color: var(--muted); font-weight: 600; position: sticky; top: 0; z-index: 10; text-transform: uppercase; font-size: 0.64rem; letter-spacing: 0.03em; box-shadow: inset 0 -1px 0 var(--border); }
 
   #tab-live th, #tab-live td, #tab-mon th, #tab-mon td { padding: 0.5rem 0.75rem; text-align: left; white-space: nowrap; }
   tr:hover td { background: rgba(30, 41, 59, 0.4); }
