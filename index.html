@@ -113,9 +113,31 @@
   .truncate { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 
   .table-container { overflow: auto; border: 1px solid var(--border); border-radius: 8px; background: #060911; height: calc(100vh - 280px); min-height: 260px; }
-  .table-container table, #tab-live, #tab-mon { width: 100%; border-collapse: collapse; }
+  /*.table-container table, #tab-live, #tab-mon { width: 100%; border-collapse: collapse; }
+  th { background: var(--surface); color: var(--muted); font-weight: 600; position: sticky; top: 0; z-index: 10; text-transform: uppercase; font-size: 0.64rem; letter-spacing: 0.03em; }*/
 
-  th { background: var(--surface); color: var(--muted); font-weight: 600; position: sticky; top: 0; z-index: 10; text-transform: uppercase; font-size: 0.64rem; letter-spacing: 0.03em; }
+  /* Use separate borders with zero spacing to avoid sticky header column line artifacts */
+  .table-container table,
+  #tab-live,
+  #tab-mon {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  /* Keep header background solid and cleanly separated below */
+  th {
+    background: var(--surface);
+    color: var(--muted);
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    text-transform: uppercase;
+    font-size: 0.64rem;
+    letter-spacing: 0.03em;
+    border-bottom: 1px solid var(--border);
+  }
   
   /* Avoid subpixel column line artifacts in collapsed tables when hovering rows */
   #tab-live td:nth-child(2),
