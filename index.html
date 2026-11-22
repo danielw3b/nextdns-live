@@ -639,7 +639,7 @@
             rCopy.push('blocked');
             if (s.isManual) rCopy.push('denylist');
           } else {
-            rCopy.push('allowed');
+            rCopy.push('allowed', 'deny');
           }
           if (rCopy.length === 0) rCopy.push('—');
     
