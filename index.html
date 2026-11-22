@@ -392,12 +392,12 @@
         </div>
         <div class="form-grid-2col">
           <div class="form-group">
-            Only Denylist add and remove:
+            Only Denylist add and remove action:
             <button class="status-allowed small" title="Click to Deny">Deny</button> <-> <button class="btn-warn small" title="Click to Unblock">Unblock</button>
           </div>
           <div class="form-group">
             <button class="btn config" onclick="(async()=>{const d=localStorage.getItem('nd-live-errors');if(!d||d==='[]')return showToast('Debug','No errors logged','warn');try{await navigator.clipboard.writeText(d);showToast('Debug','Error log copied to clipboard','success');}catch{showToast('Debug','Clipboard access denied','danger');}})()">Copy Error Log</button>
-            <button class="btn-danger" onclick="logErr.length=0;localStorage.removeItem('nd-live-errors');showToast('Debug','Error log cleared','success');">Clear Logs</button>
+            <button class="btn-danger" onclick="localStorage.removeItem('nd-live-errors');showToast('Debug','Error log cleared','success');">Clear Logs</button>
           </div>
         </div>
         
