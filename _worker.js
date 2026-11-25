@@ -4,7 +4,7 @@ export default {
 
     if (url.pathname.startsWith('/api/nextdns')) {
       const subPath = url.pathname.replace('/api/nextdns', '');
-      const targetUrl = `https://nextdns.io${subPath}${url.search}`;
+      const targetUrl = `https://api.nextdns.io${subPath}${url.search}`;
 
       const newHeaders = new Headers(request.headers);
       if (env.NEXTDNS_API_KEY && !newHeaders.has('x-api-key')) {
