@@ -19,7 +19,10 @@ export default {
       const targetUrl = `https://nextdns.io${subPath}${url.search}`;
 
       // Forward only required headers from client
-      const forwardHeaders = new Headers({ 'Accept': 'application/json' });
+      const forwardHeaders = new Headers({
+        'Accept': 'application/json',
+        'User-Agent': 'NextDNS-Live-Proxy/1.0'
+      });
       const apiKey = request.headers.get('X-Api-Key');
       if (apiKey) forwardHeaders.set('X-Api-Key', apiKey);
       if (request.headers.has('Content-Type')) {
