@@ -878,6 +878,7 @@
       } catch (e) {
         console.error('Failed to fetch NextDNS logs:', e);
         showToast('⚠️ API Error', `${e.message}`, 'danger');
+        logErr(e?.message || e, 'API NextDNS');
         STATE.currentLatency = null;
       }
     }
@@ -1307,6 +1308,7 @@
       } catch (e) {
         console.error('Failed to send Telegram notification:', e);
         showToast('⚠️ Telegram Error', `Could not send notification: ${e.message}`, 'warn');
+        logErr(e?.message || e, 'Telegram');
       }
     }
 
@@ -1389,6 +1391,7 @@
         } catch (e) {
           console.error('Failed to sync denylist:', e);
           showToast('⚠️ API Error', `Could not block: ${e.message}`, 'warn');
+          logErr(e?.message || e, 'addQuickDeny');
           return;
         }
       } else {
@@ -1424,6 +1427,7 @@
         } catch (e) {
           console.error('Failed to remove from denylist:', e);
           showToast('⚠️ API Error', `Could not remove: ${e.message}`, 'warn');
+          logErr(e?.message || e, 'removeQuickDeny');
           return;
         }
       } else {
@@ -1554,6 +1558,7 @@
           }
         } catch (err) {
           showToast('Import Error', 'Invalid JSON backup file: ' + err.message, 'danger');
+          logErr(err?.message || err, 'importConfigJSON');
         } finally {
           event.target.value = '';
         }
