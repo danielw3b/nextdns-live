@@ -676,7 +676,7 @@
       });
     
       const fragment = document.createDocumentFragment();
-      for (const l of filtered.slice(0, 200)) {
+      for (const l of filtered.slice(0, 150)) {
         const tr = document.createElement('tr');
         const s = getDomainStatus(l.domain, l.status, l.reasons, cfg);
     
