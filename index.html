@@ -1011,6 +1011,7 @@
           }
         } catch (err) {
           IP_CACHE[currIp] = { isp: '🌐 Network Error', location: 'Unknown (Offline)' };
+          logErr(err?.message || err, 'ipapi.co');
         }
     
         setTimeout(processQueue, 250);
