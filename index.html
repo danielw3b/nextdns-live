@@ -952,13 +952,29 @@
     };
     
     // Resolves IP via ipapi.co (HTTPS safe)
-    function getNextDNSIPDetails(ip) {
+    /*function getNextDNSIPDetails(ip) {
       if (!ip) return { isp: 'ᯤ Unknown IP', location: 'Unknown' };
       if (IP_CACHE[ip]) return IP_CACHE[ip];
       if (IP_CACHE[ip] === null) return { isp: 'ᯤ Resolving...', location: '🔍 Fetching...' };
     
       IP_CACHE[ip] = null;
       fetchIPGeodeticData(ip);
+      return { isp: 'ᯤ Resolving...', location: '🔍 Fetching...' };
+    }*/
+
+    function getNextDNSIPDetails(ip) {
+      if (!ip) return { isp: 'ᯤ Unknown IP', location: 'Unknown' };
+      const cleanIp = ip.trim();
+      if (IP_CACHE[cleanIp]) return IP_CACHE[cleanIp];
+    
+      // Skip reserved documentation/simulation IPs & private LAN ranges
+      if (/^(192\.0\.2\.|198\.51\.100\.|203\.0\.113\.|2001:db8:|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|127\.|fe80:|fd|fc)/i.test(cleanIp)) {
+        return (IP_CACHE[cleanIp] = { isp: 'ᯤ Local / Simulation', location: '🏠 Private / Demo Net' });
+      }
+    
+      if (IP_CACHE[cleanIp] === null) return { isp: 'ᯤ Resolving...', location: '🔍 Fetching...' };
+      IP_CACHE[cleanIp] = null;
+      fetchIPGeodeticData(cleanIp);
       return { isp: 'ᯤ Resolving...', location: '🔍 Fetching...' };
     }
     
@@ -977,7 +993,7 @@
           
           if (res.status === 429) {
             ipQueue.unshift(currIp);
-            setTimeout(processQueue, 2000);
+            setTimeout(processQueue, 5000);
             return;
           }
     
@@ -1011,7 +1027,6 @@
           }
         } catch (err) {
           IP_CACHE[currIp] = { isp: '🌐 Network Error', location: 'Unknown (Offline)' };
-          logErr(err?.message || err, 'ipapi.co');
         }
     
         setTimeout(processQueue, 250);
